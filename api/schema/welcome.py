@@ -4,6 +4,5 @@ from marshmallow.fields import Str
 
 class WelcomeSchema(Schema):
     message = Str()
-    better_message = Str()
 
 

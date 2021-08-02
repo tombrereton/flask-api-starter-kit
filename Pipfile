@@ -10,6 +10,7 @@ apispec = "*"
 python-dotenv = "*"
 dataclasses-jsonschema = "*"
 flasgger = "*"
+dataclasses-serialization = "*"
 
 [dev-packages]
 pytest = "*"

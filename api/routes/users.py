@@ -4,8 +4,10 @@ from flasgger import swag_from
 from flask import Blueprint
 from flask import request
 
-from api.schema.user_schema import UserSchema
+from api.dtos.user import User
+from api.schema.user import UserSchema
 from api.services import queue_client
+from api.services.custom_serializer import JSONSerializer
 
 users_api = Blueprint('users', __name__)
 
@@ -36,7 +38,9 @@ def create_user():
         if errors:
             return errors, 400
 
-        user = user_schema.load(request.get_json())
-        queue_client.add_create_user_job(user)
+        user_model = user_schema.load(request.get_json())
+        user_dto = JSONSerializer.deserialize(User, user_schema.dump(user_model))
 
-        return user_schema.dump(user), 200
+        queue_client.add_create_user_job(user_dto)
+
+        return user_schema.dump(user_model), 200

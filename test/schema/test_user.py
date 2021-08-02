@@ -1,6 +1,7 @@
 from assertpy import assert_that
 
-from api.schema.user_schema import UserSchema, to_snake_case
+from api.schema.user import UserSchema
+from api.schema.pascal_mixin import to_snake_case
 
 
 def test_should_convert_pascal_to_snake_case():

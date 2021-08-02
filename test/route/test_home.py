@@ -15,7 +15,7 @@ def test_gets_hello_world(client):
     expected = {"message": "Hello World!"}
 
     # act
-    response = client.get('/')
+    response = client.get('/api/')
 
     # assert
     assert_that(response.get_json()).is_equal_to(expected)
