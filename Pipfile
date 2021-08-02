@@ -5,12 +5,15 @@ name = "pypi"
 
 [packages]
 flask = "*"
-flasgger = "*"
 flask-marshmallow = "*"
 apispec = "*"
 python-dotenv = "*"
+dataclasses-jsonschema = "*"
+flasgger = "*"
 
 [dev-packages]
+pytest = "*"
+assertpy = "*"
 
 [requires]
 python_version = "3.8"

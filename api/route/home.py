@@ -2,9 +2,9 @@ from http import HTTPStatus
 from flask import Blueprint
 from flasgger import swag_from
 from api.model.welcome import WelcomeModel
-from api.schema.welcome import WelcomeSchema
+from api.schema.welcome_schema import WelcomeSchema
 
-home_api = Blueprint('api', __name__)
+home_api = Blueprint('home', __name__)
 
 
 @home_api.route('/')
