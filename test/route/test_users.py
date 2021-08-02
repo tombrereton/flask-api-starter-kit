@@ -1,3 +1,5 @@
+from unittest import mock
+
 from assertpy import assert_that
 import pytest
 
@@ -29,7 +31,9 @@ def test_creates_user_with_camelcase(client):
     user = {"UserName": "test_user"}
 
     # act
-    response = client.post('/api/users', json=user)
+    with mock.patch('api.services.queue_client.add_create_user_job') as mocked_method:
+        response = client.post('/api/users', json=user)
 
-    # assert
-    assert_that(response.get_json()).is_equal_to(user)
+        # assert
+        assert_that(user).is_in(mocked_method.call_args_list)
+        # assert_that(response.get_json()).is_equal_to(user)

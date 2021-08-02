@@ -1,7 +1,7 @@
 from flask import Flask
 from flasgger import Swagger
-from api.route.home import home_api
-from api.route.users import users_api
+from api.routes.home import home_api
+from api.routes.users import users_api
 
 
 def create_app():
@@ -11,7 +11,7 @@ def create_app():
         'title': 'Flask API Starter Kit',
     }
     swagger = Swagger(app)
-    
+
     # Initialize Config
     app.config.from_pyfile('config.py')
     app.register_blueprint(home_api, url_prefix='/api')

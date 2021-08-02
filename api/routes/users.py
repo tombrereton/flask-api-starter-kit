@@ -5,6 +5,7 @@ from flask import Blueprint
 from flask import request
 
 from api.schema.user_schema import UserSchema
+from api.services import queue_client
 
 users_api = Blueprint('users', __name__)
 
@@ -36,4 +37,6 @@ def create_user():
             return errors, 400
 
         user = user_schema.load(request.get_json())
+        queue_client.add_create_user_job(user)
+
         return user_schema.dump(user), 200
