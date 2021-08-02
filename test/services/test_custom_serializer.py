@@ -1,5 +1,5 @@
-from api.services.custom_serializer import JSONSerializer
-from api.dtos.user import User
+from src.services.custom_serializer import JSONSerializer
+from src.dtos.user import User
 from assertpy import assert_that
 
 

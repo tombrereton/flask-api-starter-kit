@@ -1,13 +1,13 @@
 from http import HTTPStatus
 
 from flasgger import swag_from
-from flask import Blueprint
+from flask import Blueprint, jsonify
 from flask import request
 
-from api.dtos.user import User
-from api.schema.user import UserSchema
-from api.services import queue_client
-from api.services.custom_serializer import JSONSerializer
+from src.dtos.user import User
+from src.schema.user import UserSchema
+from src.services import queue_client
+from src.services.custom_serializer import JSONSerializer
 
 users_api = Blueprint('users', __name__)
 
@@ -33,14 +33,13 @@ users_api = Blueprint('users', __name__)
 def create_user():
     if request.method == 'POST':
         user_schema = UserSchema()
-
         errors = user_schema.validate(request.get_json())
         if errors:
             return errors, 400
 
-        user_model = user_schema.load(request.get_json())
-        user_dto = JSONSerializer.deserialize(User, user_schema.dump(user_model))
+        user_as_snake_case = user_schema.dump(request.get_json())
+        user_dto = JSONSerializer.deserialize(User, user_as_snake_case)
 
-        queue_client.add_create_user_job(user_dto)
+        add_msg = queue_client.add_create_user_job(user_dto)
 
-        return user_schema.dump(user_model), 200
+        return jsonify(add_msg), 200

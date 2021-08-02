@@ -1,7 +1,7 @@
 from flask import Flask
 from flasgger import Swagger
-from api.routes.home import home_api
-from api.routes.users import users_api
+from src.routes.home import home_api
+from src.routes.users import users_api
 
 
 def create_app():

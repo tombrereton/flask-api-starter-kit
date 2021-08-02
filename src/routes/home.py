@@ -1,8 +1,7 @@
 from http import HTTPStatus
 from flask import Blueprint
 from flasgger import swag_from
-from api.model.welcome import WelcomeModel
-from api.schema.welcome import WelcomeSchema
+from src.schema.welcome import WelcomeSchema
 
 home_api = Blueprint('home', __name__)
 
@@ -22,5 +21,5 @@ def welcome():
     A more detailed description of the endpoint
     ---
     """
-    result = WelcomeModel()
+    result = {'message': 'Hello World!'}
     return WelcomeSchema().dump(result), 200

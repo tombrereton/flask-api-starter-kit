@@ -1,7 +1,7 @@
 from assertpy import assert_that
 import pytest
 
-import app
+from src import app
 
 
 @pytest.fixture
