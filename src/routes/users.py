@@ -6,9 +6,10 @@ from flask import request
 
 from src.config import DefaultConfig
 from src.dtos.user import User
-from src.schema.user import UserSchema
+from src.schema.user import UserSchema, UsersSchema
 from src.services import queue_client
 from src.services.custom_serializer import JSONSerializer
+from src.services.parser import parse_as_bool
 
 users_api = Blueprint('users', __name__)
 
@@ -60,6 +61,7 @@ def create_user():
     'responses': {
         HTTPStatus.OK.value: {
             'description': 'Get User',
+            'schema': UsersSchema
         }
     }
 })
@@ -69,8 +71,12 @@ def get_user():
         is_snake_case = request.args.get("isSnakeCase")
 
         user = User(user_name=DefaultConfig.DEFAULT_USERNAME)
+        users = [user]
 
-        if is_snake_case is not None and is_snake_case.lower() == 'true':
-            return jsonify(user), 200
+        if parse_as_bool(is_snake_case):
+            return jsonify(users), 200
 
-        return JSONSerializer.serialize(user), 200
+        serialized = JSONSerializer.serialize(users)
+        return jsonify(serialized), 200
+
+

@@ -33,6 +33,8 @@ def test_should_add_create_user_job_to_queue(client):
 
     # act
     with mock.patch('src.services.queue_client.add_create_user_job') as mocked_method:
+        attrs = {'return_value': 'mocked response'}
+        mocked_method.configure_mock(**attrs)
         response = client.post('/api/users', json=user)
 
         # assert
@@ -52,19 +54,19 @@ def test_should_get_user_added_response(client):
     assert_that(response_as_string).contains(user["UserName"])
 
 
-def test_should_get_user_as_pascal_case(client):
+def test_should_get_users_as_pascal_case(client):
     # act
     response = client.get('/api/users')
 
     # assert
-    response_as_string = str(response.get_json())
-    assert_that(response_as_string).contains('UserName')
+    assert_that(response.get_json()).is_length(1)
+    assert_that(next(iter(response.get_json()))).contains('UserName')
 
 
-def test_should_get_user_as_snake_case(client):
+def test_should_get_users_as_snake_case(client):
     # act
     response = client.get('/api/users?isSnakeCase=true')
 
     # assert
-    response_as_string = str(response.get_json())
-    assert_that(response_as_string).contains('user_name')
+    assert_that(response.get_json()).is_length(1)
+    assert_that(next(iter(response.get_json()))).contains('user_name')
