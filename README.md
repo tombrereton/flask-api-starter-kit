@@ -48,17 +48,15 @@ and the integration tests can target the application boundary and some happy pat
 1. Check out the code
 2. Install requirements
     ```
-    pipenv install
+    python3 -m venv venv
+    source venv/bin/active
+    pip install -r requirements.txt
+    pip install -r requirements-dev.txt
     ```
 3. Start the server with:
     ```
-   pipenv run python -m flask run
+    python -m flask run
     ```
-   
-4. Remove venv with 
-   ```
-   pipenv --rm
-   ```
    
 5. Visit http://localhost/api/ for the home api
 
