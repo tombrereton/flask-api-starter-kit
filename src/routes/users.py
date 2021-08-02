@@ -4,6 +4,7 @@ from flasgger import swag_from
 from flask import Blueprint, jsonify
 from flask import request
 
+from src.config import DefaultConfig
 from src.dtos.user import User
 from src.schema.user import UserSchema
 from src.services import queue_client
@@ -43,3 +44,33 @@ def create_user():
         add_msg = queue_client.add_create_user_job(user_dto)
 
         return jsonify(add_msg), 200
+
+
+@swag_from({
+    'get': {
+        'parameters': [
+            {
+                'in': 'query',
+                'name': 'isSnakeCase',
+                'type': 'bool',
+                'default': 'False'
+            }
+        ]
+    },
+    'responses': {
+        HTTPStatus.OK.value: {
+            'description': 'Get User',
+        }
+    }
+})
+@users_api.route('users', methods=['GET'])
+def get_user():
+    if request.method == 'GET':
+        is_snake_case = request.args.get("isSnakeCase")
+
+        user = User(user_name=DefaultConfig.DEFAULT_USERNAME)
+
+        if is_snake_case is not None and is_snake_case.lower() == 'true':
+            return jsonify(user), 200
+
+        return JSONSerializer.serialize(user), 200

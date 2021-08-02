@@ -14,10 +14,13 @@ and the integration tests can target the application boundary and some happy pat
 ### Directory Structure
 
 #### `root` Folder
-- `app.py`: This file creates the Flask app (similar to `Startup.cs` in .NET Core)
-- `config.py`: This file stores the config and reads in environment variables (similar to `appsettings.json` in .NET Core)
+- `Pipfile`: replaces requirement.txt, see below for use
+- `.env`: environment variables, these are loaded into memory in the `config.py`
+
 
 #### `src` Folder
+- `app.py`: This file creates the Flask app (similar to `Startup.cs` in .NET Core)
+- `config.py`: This file stores the config and reads in environment variables (similar to `appsettings.json` in .NET Core)
 - `schemas`: are used by the endpoints to deserialize/serialize and validate request parameters/bodies
 - `dtos`: are used for internal (i.e. domain, in-memory) data transfer
 - `dtos`: can also be serialised into CamelCase using the `custom_serializer.py`
@@ -26,7 +29,7 @@ and the integration tests can target the application boundary and some happy pat
 - `services`: for modules & classes that don't belong in Repositories
 
 #### `test` Folder
-- Mirrors the api folder
+- Mirrors the src folders 
 
 ## Dependencies
 
@@ -52,9 +55,14 @@ and the integration tests can target the application boundary and some happy pat
    pipenv run python -m flask run
     ```
    
-4. Visit http://localhost/api for the home api
+4. Remove venv with 
+   ```
+   pipenv --rm
+   ```
+   
+5. Visit http://localhost/api/ for the home api
 
-4. Visit http://localhost/apidocs for the swagger documentation
+6. Visit http://localhost/apidocs for the swagger documentation
    
 ## Tests
 
@@ -64,5 +72,25 @@ The code is covered by tests, to run the tests please execute
 pipenv run python -m pytest
 ```
 
+
+## Development
+Some useful `pipenv` commands
+
+```
+pipenv install <package_name> # for any version
+pipenv install requests~=1.2 # for specific version
+```
+
+Install development (test) dependencies
+```
+pipenv install <package_name> -d
+```
+
+Open Shell and Exit
+```
+pipenv shell
+python --version
+exit
+```
 
 

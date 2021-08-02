@@ -50,3 +50,21 @@ def test_should_get_user_added_response(client):
     # assert
     response_as_string = str(response.get_json())
     assert_that(response_as_string).contains(user["UserName"])
+
+
+def test_should_get_user_as_pascal_case(client):
+    # act
+    response = client.get('/api/users')
+
+    # assert
+    response_as_string = str(response.get_json())
+    assert_that(response_as_string).contains('UserName')
+
+
+def test_should_get_user_as_snake_case(client):
+    # act
+    response = client.get('/api/users?isSnakeCase=true')
+
+    # assert
+    response_as_string = str(response.get_json())
+    assert_that(response_as_string).contains('user_name')
