@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from unittest import mock
 
 from assertpy import assert_that
@@ -13,7 +14,7 @@ def client():
     return client
 
 
-def test_should_validates_input(client):
+def test_should_validate_input(client):
     # arrange
     user = {"userName": "test_user"}
     expected_msg = 'UserName\': [\'Missing data for required field'
@@ -23,6 +24,7 @@ def test_should_validates_input(client):
 
     # assert
     response_as_string = str(response.get_json())
+    assert_that(response.status_code).is_equal_to(HTTPStatus.BAD_REQUEST.value)
     assert_that(response_as_string).contains(expected_msg)
 
 
@@ -56,7 +58,7 @@ def test_should_get_user_added_response(client):
 
 def test_should_get_users_as_pascal_case(client):
     # act
-    response = client.get('/api/users')
+    response = client.get('/api/users/1')
 
     # assert
     assert_that(response.get_json()).is_length(1)
@@ -65,7 +67,7 @@ def test_should_get_users_as_pascal_case(client):
 
 def test_should_get_users_as_snake_case(client):
     # act
-    response = client.get('/api/users?isSnakeCase=true')
+    response = client.get('/api/users/1?isSnakeCase=true')
 
     # assert
     assert_that(response.get_json()).is_length(1)

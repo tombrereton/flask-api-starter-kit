@@ -3,8 +3,16 @@ import marshmallow_dataclass
 
 
 @dataclass
-class UserRequest:
+class CreateUserRequest:
     UserName: str
 
 
-UserRequestSchema = marshmallow_dataclass.class_schema(UserRequest)
+CreateUserRequestSchema = marshmallow_dataclass.class_schema(CreateUserRequest)
+
+
+@dataclass
+class GetUserRequest:
+    isSnakeCase: bool = field(default=False)
+
+
+GetUserRequestSchema = marshmallow_dataclass.class_schema(GetUserRequest)

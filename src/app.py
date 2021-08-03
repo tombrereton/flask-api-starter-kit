@@ -6,21 +6,14 @@ from src.routes.users import users_api
 
 
 def create_app():
-    apifairy = APIFairy()
     app = Flask(__name__)
 
-    # app.config['SWAGGER'] = {
-    #     'title': 'Flask API Starter Kit',
-    # }
-    # swagger = Swagger(app)
-
-    # Initialize Config
     app.config.from_object('src.config.DefaultConfig')
-
-    apifairy.init_app(app)
-
     app.register_blueprint(home_api, url_prefix='/api')
     app.register_blueprint(users_api, url_prefix='/api')
+
+    apifairy = APIFairy()
+    apifairy.init_app(app)
 
     return app
 
@@ -36,4 +29,4 @@ if __name__ == '__main__':
     app = create_app()
     print(app.url_map)
 
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='127.0.0.1', port=port)
