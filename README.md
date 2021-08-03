@@ -2,7 +2,7 @@
 
 - Sample API focusing on Separation of Concerns for testability.
 - This API uses Pascal Case (or Camel Case) for the JSON endpoints.
-- Swagger docs at http://localhost/apidocs 
+- Swagger docs at http://localhost/swagger 
 - Based on [https://github.com/bajcmartinez/flask-api-starter-kit](https://github.com/bajcmartinez/flask-api-starter-kit)
 
 ## Design
