@@ -63,12 +63,3 @@ def test_should_get_users_as_pascal_case(client):
     # assert
     assert_that(response.get_json()).is_length(1)
     assert_that(next(iter(response.get_json()))).contains('UserName')
-
-
-def test_should_get_users_as_snake_case(client):
-    # act
-    response = client.get('/api/users/1?isSnakeCase=true')
-
-    # assert
-    assert_that(response.get_json()).is_length(1)
-    assert_that(next(iter(response.get_json()))).contains('user_name')
