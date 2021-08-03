@@ -1,10 +1,8 @@
 from dataclasses import field, dataclass
-
-from marshmallow import Schema
-
-from typing import List, ClassVar, Type
+from typing import List
 
 import marshmallow_dataclass
+from marshmallow import Schema
 
 
 @dataclass

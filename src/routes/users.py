@@ -3,11 +3,10 @@ from http import HTTPStatus
 from flask import Blueprint, jsonify
 from flask import request
 from apifairy import body, response, other_responses, arguments
-import marshmallow as ma
 
 from src.config import DefaultConfig
 from src.requests.user import CreateUserRequestSchema, CreateUserRequest, GetUserRequest, GetUserRequestSchema
-from src.responses.user import UserResponse, UserResponseSchema
+from src.responses.user import UserResponseSchema
 from src.dtos.user import UserDto
 from src.services import queue_client
 from src.services.pascal_to_snake_serializer import JSONSerializer as ToSnakeJson

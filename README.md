@@ -34,10 +34,10 @@ and the integration tests can target the application boundary and some happy pat
 ## Dependencies
 
 - [flask](https://palletsprojects.com/p/flask/): Python server of choise
-- [flasgger](https://github.com/flasgger/flasgger): Used to generate the swagger documentation
 - [flask-marshmallow](https://flask-marshmallow.readthedocs.io/en/latest/): Used for Pascal to Snake case converter and to define Swagger Schema
 - [apispec](https://apispec.readthedocs.io/en/latest/): Required for the integration between marshmallow and flasgger
 - [dataclass-serialization](https://github.com/madman-bob/python-dataclasses-serialization): Used to convert Snake Case dataclasses (DTOs) to Pascal Case
+- [APIFairy](https://github.com/miguelgrinberg/APIFairy): For swagger generation, validation, and deserialization of request
 
 ## Dev Dependencies
 - [pytest](https://docs.pytest.org/en/6.2.x/): Testing framework of choice
@@ -67,28 +67,9 @@ and the integration tests can target the application boundary and some happy pat
 The code is covered by tests, to run the tests please execute
 
 ```
-pipenv run python -m pytest
+source venv/bin/active
+pytest
 ```
 
-
-## Development
-Some useful `pipenv` commands
-
-```
-pipenv install <package_name> # for any version
-pipenv install requests~=1.2 # for specific version
-```
-
-Install development (test) dependencies
-```
-pipenv install <package_name> -d
-```
-
-Open Shell and Exit
-```
-pipenv shell
-python --version
-exit
-```
 
 
