@@ -3,6 +3,8 @@ from http import HTTPStatus
 from flasgger import swag_from
 from flask import Blueprint, jsonify
 from flask import request
+from apifairy import authenticate, body, response, other_responses
+
 
 from src.config import DefaultConfig
 from src.requests.user import UserRequestSchema, UserRequest
@@ -16,25 +18,27 @@ from src.services.parser import parse_as_bool
 users_api = Blueprint('users', __name__)
 
 
-@swag_from({
-    'parameters': [
-        {
-            'in': 'body',
-            'name': 'User',
-            'schema': UserRequestSchema
-        }
-    ],
-    'responses': {
-        HTTPStatus.OK.value: {
-            'description': 'User Created',
-        },
-        HTTPStatus.BAD_REQUEST.value: {
-            'description': 'Request Body is Invalid',
-        }
-    }
-})
+# @swag_from({
+#     'parameters': [
+#         {
+#             'in': 'body',
+#             'name': 'User',
+#             'schema': UserRequestSchema
+#         }
+#     ],
+#     'responses': {
+#         HTTPStatus.OK.value: {
+#             'description': 'User Created',
+#         },
+#         HTTPStatus.BAD_REQUEST.value: {
+#             'description': 'Request Body is Invalid',
+#         }
+#     }
+# })
 @users_api.route('users', methods=['POST'])
+@body(UserRequestSchema)
 def create_user():
+    """Create a User."""
     if request.method == 'POST':
         user_schema = UserRequestSchema()
         errors = user_schema.validate(request.get_json())

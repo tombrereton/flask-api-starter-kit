@@ -1,19 +1,24 @@
 from flask import Flask
-from flasgger import Swagger
+# from flasgger import Swagger
+from apifairy import APIFairy
 from src.routes.home import home_api
 from src.routes.users import users_api
 
 
 def create_app():
+    apifairy = APIFairy()
     app = Flask(__name__)
 
-    app.config['SWAGGER'] = {
-        'title': 'Flask API Starter Kit',
-    }
-    swagger = Swagger(app)
+    # app.config['SWAGGER'] = {
+    #     'title': 'Flask API Starter Kit',
+    # }
+    # swagger = Swagger(app)
 
     # Initialize Config
-    app.config.from_pyfile('config.py')
+    app.config.from_object('src.config.DefaultConfig')
+
+    apifairy.init_app(app)
+
     app.register_blueprint(home_api, url_prefix='/api')
     app.register_blueprint(users_api, url_prefix='/api')
 
