@@ -1,5 +1,4 @@
 from flask import Flask
-# from flasgger import Swagger
 from apifairy import APIFairy
 from src.routes.home import home_api
 from src.routes.users import users_api
@@ -12,8 +11,8 @@ def create_app():
     app.register_blueprint(home_api, url_prefix='/api')
     app.register_blueprint(users_api, url_prefix='/api')
 
-    apifairy = APIFairy()
-    apifairy.init_app(app)
+    api_fairy = APIFairy()
+    api_fairy.init_app(app)
 
     return app
 

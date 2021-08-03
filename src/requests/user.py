@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 import marshmallow_dataclass
 from flask_marshmallow import Schema
+from typing import List
 
 
 @dataclass
@@ -9,6 +10,14 @@ class CreateUserRequest:
 
 
 CreateUserRequestSchema = marshmallow_dataclass.class_schema(CreateUserRequest, base_schema=Schema)
+
+
+@dataclass
+class CreateManyUsersRequest:
+    Users: List[CreateUserRequest]
+
+
+CreateManyUsersRequestSchema = marshmallow_dataclass.class_schema(CreateManyUsersRequest, base_schema=Schema)
 
 
 @dataclass

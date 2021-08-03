@@ -1,11 +1,13 @@
 from http import HTTPStatus
 from unittest import mock
+from unittest.mock import call
 
 from assertpy import assert_that
 import pytest
 
 from src import app
 from src.dtos.user import UserDto
+from src.services.snake_to_pascal_serializer import JSONSerializer as PascalJson
 
 
 @pytest.fixture
@@ -41,6 +43,26 @@ def test_should_add_create_user_job_to_queue(client):
 
         # assert
         mocked_method.assert_called_once_with(user_dto)
+
+
+def test_should_add_many_create_user_jobs(client):
+    # arrange
+    user = {"UserName": "test_user"}
+    user_2 = {"UserName": "test_user_2"}
+    create_users = {"Users": [user, user_2]}
+
+    user_dto = UserDto(user_name=user["UserName"])
+    user_dto_2 = UserDto(user_name=user_2["UserName"])
+    calls = [call(user_dto), call(user_dto_2)]
+
+    # act
+    with mock.patch('src.services.queue_client.add_create_user_job') as mocked_method:
+        attrs = {'return_value': 'mocked response'}
+        mocked_method.configure_mock(**attrs)
+        response = client.post('/api/users/many', json=create_users)
+
+        # assert
+        mocked_method.assert_has_calls(calls)
 
 
 def test_should_get_user_added_response(client):
