@@ -4,7 +4,7 @@ from assertpy import assert_that
 import pytest
 
 from src import app
-from src.dtos.user import User
+from src.dtos.user import UserDto
 
 
 @pytest.fixture
@@ -29,7 +29,7 @@ def test_should_validates_input(client):
 def test_should_add_create_user_job_to_queue(client):
     # arrange
     user = {"UserName": "test_user"}
-    user_dto = User(user_name="test_user")
+    user_dto = UserDto(user_name="test_user")
 
     # act
     with mock.patch('src.services.queue_client.add_create_user_job') as mocked_method:

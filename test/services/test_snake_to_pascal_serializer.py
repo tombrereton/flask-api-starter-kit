@@ -1,7 +1,7 @@
 from flask import jsonify
 
-from src.services.custom_serializer import JSONSerializer
-from src.dtos.user import User
+from src.services.snake_to_pascal_serializer import JSONSerializer
+from src.dtos.user import UserDto
 from assertpy import assert_that
 
 
@@ -9,7 +9,7 @@ def test_should_serializes_to_pascal_case():
     # arrange
     snake_json = {"user_name": "Test User"}
     pascal_json = {"UserName": "Test User"}
-    user = JSONSerializer.deserialize(User, snake_json)
+    user = JSONSerializer.deserialize(UserDto, snake_json)
 
     # act
     actual = JSONSerializer.serialize(user)
@@ -22,7 +22,7 @@ def test_should_deserializes_snake_to_snake():
     snake_json = {"user_name": "Test User"}
 
     # act
-    actual = JSONSerializer.deserialize(User, snake_json)
+    actual = JSONSerializer.deserialize(UserDto, snake_json)
 
     assert_that(actual.user_name).is_equal_to('Test User')
 
@@ -33,7 +33,7 @@ def test_should_serialize_list():
     pascal_users = [pascal_json]
 
     snake_json = {"user_name": "Test User"}
-    user = JSONSerializer.deserialize(User, snake_json)
+    user = JSONSerializer.deserialize(UserDto, snake_json)
     snake_users = [user]
 
     # act
@@ -49,7 +49,7 @@ def test_should_deserialize_list():
     expected_users = [pascal_json]
 
     snake_json = {"user_name": "Test User"}
-    user = JSONSerializer.deserialize(User, snake_json)
+    user = JSONSerializer.deserialize(UserDto, snake_json)
     users = [user]
 
     # act

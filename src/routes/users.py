@@ -5,10 +5,12 @@ from flask import Blueprint, jsonify
 from flask import request
 
 from src.config import DefaultConfig
-from src.dtos.user import User
-from src.schema.user import UserSchema, UsersSchema
+from src.requests.user import UserRequestSchema, UserRequest
+from src.responses.user import UserResponseSchema
+from src.dtos.user import UserDto
 from src.services import queue_client
-from src.services.custom_serializer import JSONSerializer
+from src.services.pascal_to_snake_serializer import JSONSerializer
+from src.services.snake_to_pascal_serializer import JSONSerializer as ToPascalJson
 from src.services.parser import parse_as_bool
 
 users_api = Blueprint('users', __name__)
@@ -19,7 +21,7 @@ users_api = Blueprint('users', __name__)
         {
             'in': 'body',
             'name': 'User',
-            'schema': UserSchema
+            'schema': UserRequestSchema
         }
     ],
     'responses': {
@@ -34,15 +36,15 @@ users_api = Blueprint('users', __name__)
 @users_api.route('users', methods=['POST'])
 def create_user():
     if request.method == 'POST':
-        user_schema = UserSchema()
+        user_schema = UserRequestSchema()
         errors = user_schema.validate(request.get_json())
         if errors:
             return errors, 400
 
-        user_as_snake_case = user_schema.dump(request.get_json())
-        user_dto = JSONSerializer.deserialize(User, user_as_snake_case)
+        user_pascal = JSONSerializer.deserialize(UserRequest, request.get_json())
+        user_snake_case = JSONSerializer.deserialize(UserDto, JSONSerializer.serialize(user_pascal))
 
-        add_msg = queue_client.add_create_user_job(user_dto)
+        add_msg = queue_client.add_create_user_job(user_snake_case)
 
         return jsonify(add_msg), 200
 
@@ -61,7 +63,7 @@ def create_user():
     'responses': {
         HTTPStatus.OK.value: {
             'description': 'Get User',
-            'schema': UsersSchema
+            'schema': UserResponseSchema
         }
     }
 })
@@ -70,13 +72,11 @@ def get_user():
     if request.method == 'GET':
         is_snake_case = request.args.get("isSnakeCase")
 
-        user = User(user_name=DefaultConfig.DEFAULT_USERNAME)
+        user = UserDto(user_name=DefaultConfig.DEFAULT_USERNAME)
         users = [user]
 
         if parse_as_bool(is_snake_case):
             return jsonify(users), 200
 
-        serialized = JSONSerializer.serialize(users)
+        serialized = ToPascalJson.serialize(users)
         return jsonify(serialized), 200
-
-

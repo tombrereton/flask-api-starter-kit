@@ -1,7 +1,8 @@
 from http import HTTPStatus
 from flask import Blueprint
 from flasgger import swag_from
-from src.schema.welcome import WelcomeSchema
+
+from src.responses.welcome import WelcomeResponseSchema
 
 home_api = Blueprint('home', __name__)
 
@@ -11,7 +12,7 @@ home_api = Blueprint('home', __name__)
     'responses': {
         HTTPStatus.OK.value: {
             'description': 'Welcome to the Flask Starter Kit',
-            'schema': WelcomeSchema
+            'schema': WelcomeResponseSchema
         }
     }
 })
@@ -22,4 +23,4 @@ def welcome():
     ---
     """
     result = {'message': 'Hello World!'}
-    return WelcomeSchema().dump(result), 200
+    return WelcomeResponseSchema().dump(result), 200
