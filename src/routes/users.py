@@ -1,11 +1,10 @@
 from http import HTTPStatus
 
-from apifairy import body, other_responses
+from apifairy import body, other_responses, response
 from flask import Blueprint, jsonify
 from flask import request
 
 from src.config import DefaultConfig
-from src.decorators.response import response
 from src.dtos.user import UserDto
 from src.requests.user import CreateUserRequestSchema, CreateUserRequest
 from src.responses.user import UserResponseSchema

@@ -2,7 +2,7 @@ from dataclasses import field, dataclass
 from typing import List
 
 import marshmallow_dataclass
-from marshmallow import Schema
+from flask_marshmallow import Schema
 
 
 @dataclass
@@ -18,4 +18,4 @@ class AllUsersResponse:
     Users: List[UserResponse] = field(default_factory=list)
 
 
-AllUsersResponseSchema = marshmallow_dataclass.class_schema(AllUsersResponse)
+AllUsersResponseSchema = marshmallow_dataclass.class_schema(AllUsersResponse, base_schema=Schema)
